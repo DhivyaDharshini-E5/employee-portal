@@ -18,10 +18,32 @@ public interface EmployeeService {
      * @param employeeId, trainee parameters are passed to insert the trainer details in the list
      *
      */
-    public void addTrainer(int id, String employeeId, String name,long mobileNumber, String email, String designation,
-                           String dateOfBirth, String projectName, String dateOfJoining, int experience);
+     public void addTrainer(int id, String name, long mobileNumber, String email, String designation, String dateOfBirth,
+                             String projectName, String dateOfJoining, int experience);
 
+     public void addTrainee(int id, String name, long mobileNumber, String email, String designation,
+                           String dateOfBirth, String taskName, String passOutYear, String collegeName);
+
+     public int calculateAge(String dateOfBirth);
+
+     public Trainer viewTrainerDetailsById(int trainerId);
+
+     public Trainee viewTraineeDetailsById(int traineeId);
+
+     public List<Trainer> viewAllTrainerDetails();
     
-     public String generatedId();
+     public List<Trainee> viewAllTraineeDetails(); 
+       
+     public String updateTrainerDetailsById(int trainerId, Trainer trainer);
+     
+     public String updateTraineeDetailsById(int traineeId, Trainee trainee);
+
+     public String deleteTrainerDetailsById(int trainerId);
+
+     public String deleteTraineeDetailsById(int traineeId); 
+
+     public String changeTrainerDetailsById(int trainerId, Trainer trainer);
+ 
+     public String changeTraineeDetailsById(int traineeId, Trainee trainee);
 }
 

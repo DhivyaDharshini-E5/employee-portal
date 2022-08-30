@@ -1,13 +1,26 @@
 package com.element5.model;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import org.hibernate.annotations.ColumnDefault;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
+
+import org.hibernate.annotations.ColumnDefault;
 
 import java.sql.Date;
 
 @MappedSuperclass
 public class Employee {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
@@ -20,18 +33,18 @@ public class Employee {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "employeeid")
-    private String employeeId;
-
     @Column(name = "designation")
     private String designation;
 
     @Column(name = "dateofbirth") 
     private String dateOfBirth;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     public Employee() {}
 
-    public Employee(int id, String employeeId, String name, long mobileNumber,String email, String designation, String dateOfBirth) {
+    public Employee(int id, String name, long mobileNumber, String email, String designation, String dateOfBirth) {
 
         this.id = id;
         this.name = name;
@@ -45,7 +58,7 @@ public class Employee {
        return id;
     }
   
-    public void setId() {
+    public void setId(int id) {
        this.id = id;
     }
 
@@ -53,7 +66,7 @@ public class Employee {
         return name;
     }
 
-    public void setName() {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -61,7 +74,7 @@ public class Employee {
         return mobileNumber;
     }
 
-    public void setMobileNumber() {
+    public void setMobileNumber(long mobileNumber) {
         this.mobileNumber = mobileNumber;
     }
 
@@ -69,7 +82,7 @@ public class Employee {
         return email;
     }
 
-    public void setEmail() {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -77,7 +90,7 @@ public class Employee {
         return designation;
     }
   
-    public void setDesignation() {
+    public void setDesignation(String designation) {
         this.designation = designation;
     }
 
@@ -85,8 +98,16 @@ public class Employee {
         return dateOfBirth;
     }
 
-    public void setBirthDate() {
+    public void setBirthDate(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+ 
+    public void setIsDeleted(boolean isDeleted) {
+      this.isDeleted = isDeleted;
+    }
+    
+    public boolean getIsDeleted() {
+      return isDeleted;
     }
 }
         
