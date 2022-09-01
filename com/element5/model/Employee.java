@@ -1,22 +1,26 @@
 package com.element5.model;
 
 import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Table;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
 import java.sql.Date;
 
+/**
+ * This is the Employee POJO class
+ * This class is used to hold the data types of Employee
+ *
+ */
 @MappedSuperclass
 public class Employee {
 

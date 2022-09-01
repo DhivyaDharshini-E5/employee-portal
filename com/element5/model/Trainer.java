@@ -1,21 +1,27 @@
 package com.element5.model;
 
 import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
+import javax.persistence.FetchType;
 import javax.persistence.GenerationType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.List;
 
+/**
+ * This is Trainer POJO class
+ * This class extends Employee and holds the data types of trainer
+ *
+ */
 @Entity
 @Table(name = "trainer")
 public class Trainer extends Employee {
@@ -30,7 +36,7 @@ public class Trainer extends Employee {
     private int experience; 
 
     @OneToMany(targetEntity = Trainee.class, cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "trainerid")
+    @JoinColumn(name = "traineeid")
     private List<Trainee> traineeDetails; 
 
     public Trainer() {}

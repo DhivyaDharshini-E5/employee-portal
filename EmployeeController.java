@@ -1,27 +1,28 @@
-import java.util.Scanner;
 import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.HashMap; 
-import java.util.List;
+
 import java.util.ArrayList;
+import java.util.HashMap; 
+import java.util.Map;
+import java.util.List;
+import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import com.element5.model.Trainer;
-import com.element5.model.Trainee;
 import com.element5.service.EmployeeServiceImpl;
 import com.element5.util.EmployeeUtils;
 import com.element5.exception.InvalidException;
+import com.element5.model.Trainer;
+import com.element5.model.Trainee;
 
 /**
- * <h3>EmployeeController<h3>
- * This class is used to get inputs from the user and stored them in the database of trainers and trainees and display the output to the user
+ * <h3>EmployeeController</h3>
+ * This class is used to get inputs from the user and stored them in the database and display the output to the user
  *
  * @author Dhivya
- * @version 3.1
+ * @version 1.1
  * @since 2022
  *
  */
@@ -29,22 +30,32 @@ import com.element5.exception.InvalidException;
 public class EmployeeController {
 
     static Scanner scanner = new Scanner(System.in); 
-    static private EmployeeServiceImpl service = new EmployeeServiceImpl();
+    static private EmployeeServiceImpl employeeservice = new EmployeeServiceImpl();
     static private Logger logger = LoggerFactory.getLogger(EmployeeController.class);
   
     public static void main(String[] args) {  
 
         String role;
         int inputs = 0;
+        
 
         while(inputs!=9) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("HI!!CHOOSE AN OPTION FROM THE FOLLOWING:\n")
+                         .append("1. Add an Trainer Details\n")
+                         .append("2. Add an Trainee Details\n")
+                         .append("3. View an Employee Details\n")
+                         .append("4. Show all Employee Details\n")
+                         .append("5. Update an Employee Details\n")
+                         .append("6. Remove an Employee details\n")
+                         .append("7. Assign trainer to trainee\n")
+                         .append("8. Assign trainees to trainer\n")
+                         .append("9. Stop");
 
-            logger.info("HI!!CHOOSE AN OPTION FROM THE FOLLOWING:\n1. Add an Trainer Details\n2. Add an Trainee Details\n3. View an Employee Details\n4. Show all Employee Details\n5. Update an Employee Details\n6. Remove an Employee details\n7. Assign trainer to trainee\n8. Assign trainees to trainer\n9. Stop");
+            System.out.println(stringBuilder);                
             inputs = scanner.nextInt();
-            scanner.nextLine();
 
             switch(inputs) { 
-
             case 1 :
 
                 setTrainerDetails();
@@ -55,29 +66,30 @@ public class EmployeeController {
                 setTraineeDetails();
                 break;
 
-            case 3:
-             
+            case 3: 
+           
                 System.out.println("1. Trainer Details\n2. Trainee Details\n3. Exit");
                 int choice = scanner.nextInt();
 
-                switch(choice) {
-      
+                switch(choice) {      
                 case 1 :
 
                      logger.info("Enter the Trainer Id:");
                      int trainerId = scanner.nextInt();
-                     System.out.println("The Trainer Details:" +"\n"+ service.viewTrainerDetailsById(trainerId));                                          
+                     System.out.println("The Trainer Details:" +"\n"+ employeeservice.viewTrainerDetailsById(trainerId));                                          
                      break;
 
                 case 2 :
 
+                     StringBuilder stringBuild = new StringBuilder();
                      logger.info("Enter the Trainee Id:");
                      int traineeId = scanner.nextInt();
-                     System.out.println("The Trainee Details:" +"\n"+ service.viewTraineeDetailsById(traineeId)); 
-                     Trainer trainer = service.viewTraineeDetailsById(traineeId).getTrainerDetails();
-                                      System.out.println("Trainer Name: " + trainer.getName());
-                                      System.out.println("Trainer Id:" + trainer.getId());
-                                      System.out.println("Trainer Email:" + trainer.getEmail());
+                     System.out.println("The Trainee Details:" +"\n"+ employeeservice.viewTraineeDetailsById(traineeId)); 
+                     Trainer trainer = employeeservice.viewTraineeDetailsById(traineeId).getTrainerDetails();
+                                       stringBuild.append("Trainer Name: " + trainer.getName() +"\n")
+                                                    .append("Trainer Id:" + trainer.getId() +"\n")
+                                                    .append("Trainer Email:" + trainer.getEmail());
+                                       System.out.println(stringBuild);
                      
                      break;
 
@@ -98,12 +110,12 @@ public class EmployeeController {
       
                     case 1 :
 
-                        logger.info("The Trainers Details:" +"\n"+ service.viewAllTrainerDetails()); 
+                        logger.info("The Trainers Details:" +"\n"+ employeeservice.viewAllTrainerDetails()); 
                         break;
 
                     case 2 :
 
-                        logger.info("The Trainee Details:" + service.viewAllTraineeDetails());
+                        logger.info("The Trainee Details:" + employeeservice.viewAllTraineeDetails());
                         break;
 
                     case 3 :
@@ -125,19 +137,18 @@ public class EmployeeController {
     
                      System.out.println("Enter the ID of an Employee You want to update:");
                      int trainerId = scanner.nextInt();
-                     Trainer trainerDetails = service.viewTrainerDetailsById(trainerId);
+                     Trainer trainerDetails = employeeservice.viewTrainerDetailsById(trainerId);
                      Trainer updatedTrainerDetails  = updateTrainerDetails(trainerDetails);
-                     service.updateTrainerDetailsById(trainerId, updatedTrainerDetails);
+                     System.out.println("The updated Trainer details" + employeeservice.updateTrainerDetailsById(trainerId, updatedTrainerDetails);
                      break;
 
                  case 2 :
      
                      System.out.println("Enter the ID of an Employee You want to update :");
                      int traineeId = scanner.nextInt();
-                     Trainee traineeDetails = service.viewTraineeDetailsById(traineeId);
+                     Trainee traineeDetails = employeeservice.viewTraineeDetailsById(traineeId);
                      Trainee updatedTraineeDetails = updateTraineeDetails(traineeDetails);
-                     service.updateTraineeDetailsById(traineeId, updatedTraineeDetails);
-                     logger.info("Trainee details are successfully updated");
+                     System.out.println("The updated Trainee Details" + employeeservice.updateTraineeDetailsById(traineeId, updatedTraineeDetails);
                      break; 
 
                  case 3 :
@@ -159,14 +170,14 @@ public class EmployeeController {
 
                      logger.info("Enter the Trainer Id:");
                      int trainerId = scanner.nextInt();
-                     service.deleteTrainerDetailsById(trainerId); 
+                     employeeservice.deleteTrainerDetailsById(trainerId); 
                      break;
 
                 case 2 :
 
                      logger.info("Enter the Trainee Id:");
                      int traineeId = scanner.nextInt();
-                     service.deleteTraineeDetailsById(traineeId);
+                     employeeservice.deleteTraineeDetailsById(traineeId);
                      break;
 
                 case 3 :
@@ -206,24 +217,24 @@ public class EmployeeController {
       public static void setTrainerDetails() {
 
           logger.info("Enter the EmployeeName:");
-          String name = validName();
+          String name = validateName();
 
           int id = 0;
 
           logger.info("Enter the Email Address");
-          String email = validEmail();
+          String email = validateEmail();
            
           logger.info("Enter the Designation:");
           String designation = scanner.nextLine();
                      
           logger.info("Enter the Contact Number:");
-          String contactNumber = validContact();
+          String contactNumber = validateContact();
           long mobileNumber = Long.parseLong(contactNumber);
   
           logger.info("Enter Your Date Of Birth in yyyy-mm-dd format:");
           String dateOfBirth = scanner.nextLine();
-          int age = service.calculateAge(dateOfBirth);
-          logger.info("Trainer's age:"+ service.calculateAge(dateOfBirth));
+          int age = employeeservice.calculateAge(dateOfBirth);
+          logger.info("Trainer's age:"+ employeeservice.calculateAge(dateOfBirth));
 
           boolean isValidateExperience = false; 
           int experience = 0;
@@ -233,7 +244,7 @@ public class EmployeeController {
 
                   logger.info("Enter the Experience:");
                   experience = scanner.nextInt();
-                  age = service.calculateAge(dateOfBirth);
+                  age = employeeservice.calculateAge(dateOfBirth);
                   if(EmployeeUtils.isValidateExperience(age, experience)) {
                       isValidateExperience = true;
                       logger.info("Experience is sucessfully added");
@@ -245,12 +256,12 @@ public class EmployeeController {
            
           scanner.nextLine();
           logger.info("Enter the Date Of Joining in dd-mm-yyyy format:");
-          String dateOfJoining = validDate();
+          String dateOfJoining = validateDate();
 
           logger.info("Enter the Project Name:"); 
           String projectName = scanner.nextLine();
                 
-          service.addTrainer(id, name, mobileNumber, email, designation,
+          employeeservice.addTrainer(id, name, mobileNumber, email, designation,
                              dateOfBirth, projectName, dateOfJoining, experience);
                            
           System.out.println("*****************************************************");
@@ -259,27 +270,31 @@ public class EmployeeController {
               
      } 
 
-     public static void setTraineeDetails() {
+     /**
+      * This method is used to set trainee details
+      *
+      */
+      public static void setTraineeDetails() {
 
          logger.info("Enter the EmployeeName:");
-         String name = validName();
+         String name = validateName();
 
          int id = 0;
 
          logger.info("Enter the Email Address");
-         String email = validEmail();
+         String email = validateEmail();
            
          logger.info("Enter the Designation:");
          String designation = scanner.nextLine();
                      
          logger.info("Enter the Contact Number:");
-         String contactNumber = validContact();
+         String contactNumber = validateContact();
          long mobileNumber = Long.parseLong(contactNumber);
   
          logger.info("Enter Your Date Of Birth in yyyy-mm-dd format:");
          String dateOfBirth = scanner.nextLine();
-         int age = service.calculateAge(dateOfBirth);
-         logger.info("Trainer's age:"+ service.calculateAge(dateOfBirth));
+         int age = employeeservice.calculateAge(dateOfBirth);
+         logger.info("Trainer's age:"+ employeeservice.calculateAge(dateOfBirth));
            
          logger.info("Enter the pass out year:");
          String passOutYear = scanner.nextLine();
@@ -291,7 +306,7 @@ public class EmployeeController {
          String collegeName = scanner.nextLine();
          
                 
-         service.addTrainee(id, name, mobileNumber, email, designation,
+         employeeservice.addTrainee(id, name, mobileNumber, email, designation,
                              dateOfBirth, taskName, passOutYear, collegeName);
                            
          System.out.println("*****************************************************");
@@ -407,16 +422,20 @@ public class EmployeeController {
           return traineeDetails;
      }
 
+    /**
+     * This method is used to assign trainer to trainee
+     *
+     */
      public static void assignTrainerToTrainee(int traineeId) {
 
-         Trainee trainee= service.viewTraineeDetailsById(traineeId);
+         Trainee trainee= employeeservice.viewTraineeDetailsById(traineeId);
          if (trainee!=null) {
             logger.info("Enter the TrainerId you want to assign to this Trainee:");
             int trainerId = scanner.nextInt();
-            Trainer trainer = service.viewTrainerDetailsById(trainerId);
+            Trainer trainer = employeeservice.viewTrainerDetailsById(trainerId);
             if(trainer!=null) {
                 trainee.setTrainerDetails(trainer);
-                service.changeTraineeDetailsById(traineeId, trainee);
+                employeeservice.changeTraineeDetailsById(traineeId, trainee);
             } else {
                 logger.error("No trainer details found");
             }
@@ -425,34 +444,42 @@ public class EmployeeController {
          }
       }
 
- 
-      public static void assignTraineesToTrainer(int trainerId) {
+    /**
+     * This method is used to assign trainees to trainer
+     *
+     */
+     public static void assignTraineesToTrainer(int trainerId) {
 
-          Trainer trainer = service.viewTrainerDetailsById(trainerId);
-          if (trainer!=null) {
-              logger.info("how many trainees you want to add");
-                     List<Trainee> traineeDetails = new ArrayList<>();
-              int noOfTrainees = scanner.nextInt();
-              while(noOfTrainees > 0) {
-                  logger.info("Enter the TraineeId you want to assign to this Trainer:");
-                  int traineeId = scanner.nextInt();
-                  Trainee trainee = service.viewTraineeDetailsById(traineeId);
-                  if(trainee!=null) {
-                     traineeDetails.add(trainee);
-                     trainer.setTraineeDetails(traineeDetails);
-                     service.changeTrainerDetailsById(trainerId, trainer);
-                     noOfTrainees--;
-                  } else {
-                     logger.error("No trainee Details found");
-                     noOfTrainees--;
-                  }
-               }
-           } else {
+         Trainer trainer = employeeservice.viewTrainerDetailsById(trainerId);
+         if (trainer!=null) {
+             logger.info("how many trainees you want to add");
+             List<Trainee> traineeDetails = new ArrayList<>();
+             int noOfTrainees = scanner.nextInt();
+             while(noOfTrainees > 0) {
+                 logger.info("Enter the TraineeId you want to assign to this Trainer:");
+                 int traineeId = scanner.nextInt();
+                 Trainee trainee = employeeservice.viewTraineeDetailsById(traineeId);
+                 if(trainee!=null) {
+                    traineeDetails.add(trainee);
+                    trainer.setTraineeDetails(traineeDetails);
+                    employeeservice.changeTrainerDetailsById(trainerId, trainer);
+                    noOfTrainees--;
+                 } else {
+                    logger.error("No trainee Details found");
+                    noOfTrainees--;
+                 }
+              }
+          } else {
                logger.error("No trainer details found");
            }
      }
-                
-     public static String validName() { 
+
+    /**
+     * This method is used to validate name
+     *
+     * @return name
+     */               
+     public static String validateName() { 
          boolean isValidName = true;
          String name = null;
          while(isValidName) {
@@ -469,8 +496,14 @@ public class EmployeeController {
 
           return name;
       }
- 
-      public static String validContact() { 
+
+     /**
+      * This method is used to validate contact number
+      *
+      * @return contact number
+      *
+      */
+      public static String validateContact() { 
           boolean isValidContact = true;
           String contactNumber = null;
           while(isValidContact) {
@@ -487,8 +520,16 @@ public class EmployeeController {
           
           return contactNumber;
       }
+
+      
+     /**
+      * This method is used to validate date
+      *
+      * @return date
+      *
+      */
  
-      public static String validDate() { 
+      public static String validateDate() { 
           boolean isValidDate = true;
           String date = null;
           while(isValidDate) {
@@ -504,8 +545,14 @@ public class EmployeeController {
 
           return date;
       }
-    
-      public static String validEmail() { 
+
+     /**
+      * This method is used to validate email
+      *
+      * @return email
+      *
+      */   
+      public static String validateEmail() { 
           boolean isValidEmail = true;
           String email = null;
           while(isValidEmail) {
