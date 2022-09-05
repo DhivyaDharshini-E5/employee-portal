@@ -14,8 +14,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
-import java.sql.Date;
-
 /**
  * This is the Employee POJO class
  * This class is used to hold the data types of Employee
@@ -49,7 +47,6 @@ public class Employee {
     public Employee() {}
 
     public Employee(int id, String name, long mobileNumber, String email, String designation, String dateOfBirth) {
-
         this.id = id;
         this.name = name;
         this.mobileNumber = mobileNumber;

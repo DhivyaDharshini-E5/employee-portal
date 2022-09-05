@@ -26,8 +26,8 @@ public interface EmployeeService {
      * @param Id, trainer parameters are passed to insert the trainer details in the list
      *
      */
-     public void addTrainer(int id, String name, long mobileNumber, String email, String designation, String dateOfBirth,
-                             String projectName, String dateOfJoining, int experience);
+    public void addTrainer(int id, String name, long mobileNumber, String email, String designation, String dateOfBirth,
+                            String projectName, String dateOfJoining, int experience);
    
     /**
      * This method is used to add informations about a trainee in trainee list
@@ -35,7 +35,7 @@ public interface EmployeeService {
      * @param Id, trainee parameters are passed to insert the trainer details in the list
      *
      */
-     public void addTrainee(int id, String name, long mobileNumber, String email, String designation,
+    public void addTrainee(int id, String name, long mobileNumber, String email, String designation,
                            String dateOfBirth, String taskName, String passOutYear, String collegeName);
 
     /**
@@ -46,7 +46,7 @@ public interface EmployeeService {
      * @return age
      *
      */
-     public int calculateAge(String dateOfBirth);
+    public int calculateAge(String dateOfBirth);
 
      /**
       * This method is used to view trainer details 
@@ -56,7 +56,7 @@ public interface EmployeeService {
       * @return trainer details
       *
       */
-      public Trainer viewTrainerDetailsById(int trainerId);
+     public Trainer viewTrainerDetailsById(int trainerId);
 
      /**
       * This method is used to view trainee details 
@@ -73,49 +73,49 @@ public interface EmployeeService {
       *
       * @return trainer informations in a list
       */
-      public List<Trainer> viewAllTrainerDetails();
+     public List<Trainer> viewAllTrainerDetails();
      
      /**
       * This method is used to view all trainee details
       *
       * @return trainee informations in a list
       */        
-      public List<Trainee> viewAllTraineeDetails(); 
+     public List<Trainee> viewAllTraineeDetails(); 
 
      /**
       * This method is used to update trainer Details
       *
       */      
-      public Trainer updateTrainerDetailsById(int trainerId, Trainer trainer);
+     public String updateTrainerDetailsById(int trainerId, Trainer trainer);
     
      /**
       * This method is used to update trainee Details
       *
       */    
-      public Trainee updateTraineeDetailsById(int traineeId, Trainee trainee);
+     public String updateTraineeDetailsById(int traineeId, Trainee trainee);
 
      /**
       * This method is used to remove trainer Details
       *
       */
-      public String deleteTrainerDetailsById(int trainerId);
+     public String deleteTrainerDetailsById(int trainerId);
 
      /**
       * This method is used to remove trainer Details
       *
       */    
-      public String deleteTraineeDetailsById(int traineeId); 
+     public String deleteTraineeDetailsById(int traineeId); 
     
      /**
       * This method is used to update details of trainees assigned to trainer in trainer details
       *
       */             
-      public String changeTrainerDetailsById(int trainerId, Trainer trainer);
+     public String changeTrainerDetailsById(int trainerId, Trainer trainer);
     
      /**
       * This method is used to update details of trainer assigned to trainee in trainee details
       *
       */           
-      public String changeTraineeDetailsById(int traineeId, Trainee trainee);
+     public String changeTraineeDetailsById(int traineeId, Trainee trainee);
 }
 

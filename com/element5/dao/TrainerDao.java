@@ -26,47 +26,47 @@ import org.hibernate.Transaction;
 
 public interface TrainerDao {
 
-   /**
-    * This method is used to insert trainee details in trainee table
-    *
-    * @param Trainee details is passed as a parameter
-    *
-    * @return String
-    *
-    */    
+    /**
+     * <p>This method is used to insert trainee details in trainee table<\p>
+     *
+     * @param Trainee details is passed as a parameter
+     *
+     * @return String
+     *
+     */    
     public String insertIntoTrainerTable(Trainer trainer);
 
-   /**
-    * This method is used to display trainer details
-    *
-    * @param TrainerId is passed as a parameter
-    *
-    * @return Trainer details
-    *
-    */    
+    /**
+     * <p>This method is used to display trainer details<\p>
+     *
+     * @param TrainerId is passed as a parameter
+     *
+     * @return Trainer details
+     *
+     */    
     public Trainer showTrainerDetailsById(int trainerId);
 
-   /* 
-    * This method is used to display all trainer details
-    *
-    * @return Trainers informations in a list
-    *
-    */    
+    /** 
+     * This method is used to display all trainer details
+     *
+     * @return Trainers informations in a list
+     *
+     */    
     public List<Trainer> showAllTrainerDetails();
 
-   /**
-    * This method is used to update trainer details
-    *
-    * @returnupdated trainer details
-    *
-    */    
-    public Trainer modifyTrainerDetailsById(int trainerId, Trainer updatedTrainerDetails);
+    /**
+     * This method is used to update trainer details
+     *
+     * @returnupdated trainer details
+     *
+     */    
+    public String modifyTrainerDetailsById(int trainerId, Trainer updatedTrainerDetails);
 
-   /**
-    * This method is used to remove a trainer details
-    *
-    * @return String
-    *
-    */    
+    /**
+     * This method is used to remove a trainer details
+     *
+     * @return String
+     *
+     */    
     public String removeTrainerDetails(int trainerid);
 }

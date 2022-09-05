@@ -18,95 +18,112 @@ import org.hibernate.Transaction;
 
 /**
  * <h3>TrainerDaoImpl</h3>
- * This class holds the implementations of Interface TrainerDao class
+ * <p>This class holds the implementations of Interface TrainerDao class<\p>
  *
  */
 public class TraineeDaoImpl implements TraineeDao {
 
-    static private Logger logger = LoggerFactory.getLogger(TraineeDaoImpl.class);
+    private Logger logger = LoggerFactory.getLogger(TraineeDaoImpl.class);
 
-   /**
-    *This method is used to insert trainee details in trainee table
-    *
-    * @param Trainee details is passed as a parameter
-    *
-    * @return String
-    *
-    */    
+    /**
+     *<p>This method is used to insert trainee details in trainee table</p>
+     *
+     * @param Trainee details is passed as a parameter
+     *
+     * @return String
+     *
+     */
+    @Override    
     public String insertIntoTraineeTable(Trainee trainee) {
 
         Transaction transaction = null;
-        String error = "Trainee details not sucessfully added";  
-   
-        try (Session session = Factory.getFactory().openSession();) { 
-            tx = session.beginTransaction();
+        Session session = null;
+        String error = "Trainee details not sucessfully added";    
+        try {
+            Session session = Factory.getFactory().openSession(); 
+            transaction = session.beginTransaction();
             session.save(trainee);     
             transaction.commit();
             logger.info("Trainee details are successfully added");
-         } catch(HibernateException e) {
-              if (transaction!=null) {
-                  transaction.rollback();
-              }
-              e.printStackTrace();
-         }
-         return error;
+        } catch(HibernateException e) {
+            transaction.rollback();
+            logger.error("{}", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return error;
     }
 
-   /** 
-    *This method is used to display trainee details
-    *
-    * @param TraineeId is passed as a parameter
-    *
-    * @return Trainee details
-    *
-    */    
+    /** 
+     *<p>This method is used to display trainee details<\p>
+     *
+     * @param TraineeId is passed as a parameter
+     *
+     * @return Trainee details
+     *
+     */    
+    @Override        
     public Trainee showTraineeDetailsById(int traineeId) {
 
         Trainee trainee = null;
-
-        try(Session session = Factory.getFactory().openSession();) {
+        Session session = null;
+        try {
+            Session session = Factory.getFactory().openSession();
             Trainee traineeDetails = (Trainee) session.get(Trainee.class, traineeId);
             trainee = traineeDetails;
         } catch(HibernateException e) {
-            e.printStackTrace();
+            logger.error("{}", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         return trainee;
     }
 
-   /**
-    *This method is used to display all trainee details
-    *
-    * @return Trainees informations in a list
-    *
-    */    
+    /**
+     *<p>This method is used to display all trainee details<\p>
+     *
+     * @return Trainees informations in a list
+     *
+     */ 
+    @Override       
     public List<Trainee> showAllTraineeDetails() {  
 
         List<Trainee> traineesInformations = new ArrayList<>();
-
-        try (Session session = Factory.getFactory().openSession();) {
+        Session session = null;
+        try {
+            Session session = Factory.getFactory().openSession(); 
             Criteria criteria = session.createCriteria(Trainee.class);
             criteria.add(Restrictions.eq("isDeleted", false));
             List<Trainee> results = criteria.list();
             traineesInformations = results;
-         } catch (HibernateException e) {
-            e.printStackTrace();
+        } catch (HibernateException e) {
+            logger.error("{}", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         return traineesInformations;
     }
 
-   /** 
-    *This method is used to update trainee details
-    *
-    * @return updated trainee details
-    *
-    */    
-    public Trainee modifyTraineeDetailsById(int traineeId, Trainee updatedTraineeDetails) {
+    /** 
+     *This method is used to update trainee details
+     *
+     * @return updated trainee details
+     *
+     */ 
+    @Override       
+    public String modifyTraineeDetailsById(int traineeId, Trainee updatedTraineeDetails) {
 
         Transaction transaction = null;
-        //String error = "Trainee details are not successfully updated";
-        Trainee traineeDetails = null;
-
-        try(Session session = Factory.getFactory().openSession();) {
+        Session session= null;
+        String error = "Trainee details are not successfully updated";
+        try {
+           Session session = Factory.getFactory().openSession();
            transaction = session.beginTransaction(); 
            Trainee trainee = (Trainee)session.get(Trainee.class, traineeId);
            trainee.setName(updatedTraineeDetails.getName());
@@ -120,29 +137,34 @@ public class TraineeDaoImpl implements TraineeDao {
            trainee.setTrainerDetails(updatedTraineeDetails.getTrainerDetails());
            session.update(trainee);
            transaction.commit();
-           traineeDetails = trainee;
            logger.info("Trainee details are successfully updated");
         } catch(HibernateException e) {  
             if(transaction!=null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            logger.error("{}", e);        
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
-        return traineeDetails;
+        return error;
     } 
 
-   /** 
-    *This method is used to remove a trainee details
-    *
-    * @return String
-    *
-    */    
+    /** 
+     *This method is used to remove a trainee details
+     *
+     * @return String
+     *
+     */
+    @Override        
     public String removeTraineeDetails(int traineeid) {
 
         Transaction transaction = null;
+        Session session = null;
         String message = "Trainee Details not deleted";
-
-        try (Session session = Factory.getFactory().openSession();) {
+        try {
+            Session session = Factory.getFactory().openSession();
             transaction = session.beginTransaction();
             Trainee trainee = (Trainee) session.get(Trainee.class, traineeid);
             trainee.setIsDeleted(true);
@@ -153,7 +175,11 @@ public class TraineeDaoImpl implements TraineeDao {
             if(transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
+            logger.error("{}", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
         return message;
     }                      

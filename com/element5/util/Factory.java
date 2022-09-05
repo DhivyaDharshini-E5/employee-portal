@@ -18,15 +18,14 @@ public class Factory {
     public static SessionFactory getFactory() {
 
         try {
-           factory = new Configuration().
-                     configure().
-                     addAnnotatedClass(Trainer.class).
-                     addAnnotatedClass(Trainee.class).buildSessionFactory();
+            factory = new Configuration().
+                      configure().
+                      addAnnotatedClass(Trainer.class).
+                      addAnnotatedClass(Trainee.class).buildSessionFactory();
         } catch (Throwable ex) {
-              logger.error("Failed to create sessionFactory object." + ex);
-              throw new ExceptionInInitializerError(ex);
-        }
-  
+            logger.error("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }  
         return factory;
     }
 }
