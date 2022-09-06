@@ -1,5 +1,6 @@
-package com.element5.dao;
+package com.element5.dao.impl;
 
+import com.element5.dao.TrainerDao;
 import com.element5.model.Trainer;
 import com.element5.util.Factory;
 
@@ -34,13 +35,14 @@ public class TrainerDaoImpl implements TrainerDao {
      *
      */  
     @Override  
-    public String insertIntoTrainerTable(Trainer trainer) {
+    public String insertTrainer(Trainer trainer) {
 
         Transaction transaction = null;
         Session session = null;
-        String error = "Trainer details not sucessfully added";        
+        String error = "Trainer details not sucessfully added";  
+      
         try {  
-            Session session = Factory.getFactory().openSession();
+            session = Factory.getFactory().openSession();
             transaction = session.beginTransaction();
             session.save(trainer);     
             transaction.commit();
@@ -69,8 +71,9 @@ public class TrainerDaoImpl implements TrainerDao {
 
         Trainer trainer = null;
         Session session = null;
+
         try {
-            Session session = Factory.getFactory().openSession();
+            session = Factory.getFactory().openSession();
             Trainer trainerDetails = (Trainer) session.get(Trainer.class, trainerId);
             trainer = trainerDetails;
         } catch(HibernateException e) {
@@ -94,8 +97,9 @@ public class TrainerDaoImpl implements TrainerDao {
 
         List<Trainer> trainersInformations = new ArrayList<>();
         Session session = null;
+
         try {
-            Session session = Factory.getFactory().openSession(); 
+            session = Factory.getFactory().openSession(); 
             Criteria criteria = session.createCriteria(Trainer.class);
             criteria.add(Restrictions.eq("isDeleted", false));
             List<Trainer> results = criteria.list();
@@ -122,8 +126,9 @@ public class TrainerDaoImpl implements TrainerDao {
         Transaction transaction = null;
         Session session = null;
         String error = "Trainer details are not successfully updated";
+
         try {
-           Session session = Factory.getFactory().openSession();
+           session = Factory.getFactory().openSession();
            transaction = session.beginTransaction(); 
            Trainer trainer = (Trainer)session.get(Trainer.class, trainerId);
            trainer.setName(updatedTrainerDetails.getName());
@@ -163,8 +168,9 @@ public class TrainerDaoImpl implements TrainerDao {
         Transaction transaction = null;
         Session session = null;
         String message = "Trainer Details not deleted";
+
         try {
-            Session session = Factory.getFactory().openSession();
+            session = Factory.getFactory().openSession();
             transaction = session.beginTransaction();
             Trainer trainer = (Trainer) session.get(Trainer.class, trainerid);
             trainer.setIsDeleted(true);

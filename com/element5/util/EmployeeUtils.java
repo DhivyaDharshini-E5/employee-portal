@@ -21,7 +21,7 @@ public class EmployeeUtils {
     public static boolean isNameValidated(String name) {   
         String expression ="^[a-zA-z ]*$"; 
         if (name.matches(expression)) {
-             return true;
+            dreturn true;
         }            
         return false;
     }
@@ -33,7 +33,7 @@ public class EmployeeUtils {
      *
      */
     public static boolean isNumberValidated(String number) {
-        if(number.matches("^[0-9]{10}$")) {
+        if (number.matches("^[5-9][0-9]{9}$")) {
             return true;
         }
         return false;
@@ -46,7 +46,20 @@ public class EmployeeUtils {
      *
      */    
     public static boolean isDateValidated(String dateOfJoining) {
-        if(dateOfJoining.matches("(0[1-9]|[12][0-9]|[3][01])-(0[1-9]|1[012])-\\d{4}")) {
+        if (dateOfJoining.matches("(0?[1-9]|[12][0-9]|[3][01])-(0?[1-9]|1[012])-\\d{4}")) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *This method is used to validate date
+     *
+     * @param joining date of an employee is passed as an parameter
+     *
+     */   
+    public static boolean isBirthDateValidated(String dateOfBirth) {
+        if (dateOfBirth.matches("(0?[1-9]|[12][0-9]|[3][01])-(0?[1-9]|1[012])-\\d{4}")) {
             return true;
         }
         return false;
@@ -57,13 +70,13 @@ public class EmployeeUtils {
      *
      * @param age, experience of an employee is passed as an parameter
      *
-     */
-    public static boolean isExperienceValidated(int age, int experience) throws InvalidException  {
+     *
+    public static boolean isExperienceValidated(int age, int experience) throws InvalidException {
         if ((age<23 && experience <= 2)||(age>23 && (experience <= 50 && experience <= (age - 23)))){
             return true;
         }         
         throw new InvalidException("Experience is invalid for this age");
-    }
+    }*/
 
     /**
      *This method is used to validate Email
@@ -77,7 +90,19 @@ public class EmployeeUtils {
             return true;
         }
         return false;
-    }      
+    } 
+
+    /**
+     * This method is used to validate PassOutYear
+     *
+     * @param email of an employee is passed as an parameter
+     *
+     */
+    public static boolean isPassedOutYearValidated(String passOutYear) { 
+          
+       
+         
+              
 }   
 
 

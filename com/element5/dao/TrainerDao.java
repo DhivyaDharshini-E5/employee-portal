@@ -34,7 +34,7 @@ public interface TrainerDao {
      * @return String
      *
      */    
-    public String insertIntoTrainerTable(Trainer trainer);
+    public String insertTrainer(Trainer trainer);
 
     /**
      * <p>This method is used to display trainer details<\p>

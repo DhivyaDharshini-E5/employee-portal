@@ -33,7 +33,7 @@ public interface TraineeDao {
      * @return String
      *
      */    
-    public String insertIntoTraineeTable(Trainee trainee);
+    public String insertTrainee(Trainee trainee);
 
     /**
      * This method is used to display trainee details

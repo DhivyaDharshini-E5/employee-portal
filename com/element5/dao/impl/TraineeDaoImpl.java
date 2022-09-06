@@ -1,5 +1,6 @@
-package com.element5.dao;
+package com.element5.dao.impl;
 
+import com.element5.dao.TraineeDao;
 import com.element5.model.Trainee;
 import com.element5.util.Factory;
 
@@ -34,13 +35,14 @@ public class TraineeDaoImpl implements TraineeDao {
      *
      */
     @Override    
-    public String insertIntoTraineeTable(Trainee trainee) {
+    public String insertTrainee(Trainee trainee) {
 
         Transaction transaction = null;
         Session session = null;
-        String error = "Trainee details not sucessfully added";    
+        String error = "Trainee details not sucessfully added";   
+ 
         try {
-            Session session = Factory.getFactory().openSession(); 
+            session = Factory.getFactory().openSession(); 
             transaction = session.beginTransaction();
             session.save(trainee);     
             transaction.commit();
@@ -69,8 +71,9 @@ public class TraineeDaoImpl implements TraineeDao {
 
         Trainee trainee = null;
         Session session = null;
+
         try {
-            Session session = Factory.getFactory().openSession();
+            session = Factory.getFactory().openSession();
             Trainee traineeDetails = (Trainee) session.get(Trainee.class, traineeId);
             trainee = traineeDetails;
         } catch(HibernateException e) {
@@ -94,8 +97,9 @@ public class TraineeDaoImpl implements TraineeDao {
 
         List<Trainee> traineesInformations = new ArrayList<>();
         Session session = null;
+
         try {
-            Session session = Factory.getFactory().openSession(); 
+            session = Factory.getFactory().openSession(); 
             Criteria criteria = session.createCriteria(Trainee.class);
             criteria.add(Restrictions.eq("isDeleted", false));
             List<Trainee> results = criteria.list();
@@ -122,8 +126,9 @@ public class TraineeDaoImpl implements TraineeDao {
         Transaction transaction = null;
         Session session= null;
         String error = "Trainee details are not successfully updated";
+
         try {
-           Session session = Factory.getFactory().openSession();
+           session = Factory.getFactory().openSession();
            transaction = session.beginTransaction(); 
            Trainee trainee = (Trainee)session.get(Trainee.class, traineeId);
            trainee.setName(updatedTraineeDetails.getName());
@@ -163,8 +168,9 @@ public class TraineeDaoImpl implements TraineeDao {
         Transaction transaction = null;
         Session session = null;
         String message = "Trainee Details not deleted";
+
         try {
-            Session session = Factory.getFactory().openSession();
+            session = Factory.getFactory().openSession();
             transaction = session.beginTransaction();
             Trainee trainee = (Trainee) session.get(Trainee.class, traineeid);
             trainee.setIsDeleted(true);

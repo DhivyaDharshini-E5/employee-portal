@@ -1,4 +1,7 @@
-import com.element5.service.EmployeeServiceImpl;
+package com.element5.controller;
+
+import com.element5.service.EmployeeService;
+import com.element5.service.impl.EmployeeServiceImpl;
 import com.element5.util.EmployeeUtils;
 import com.element5.exception.InvalidException;
 import com.element5.model.Trainer;
@@ -29,10 +32,10 @@ import java.time.LocalDate;
 public class EmployeeController {
 
     static Scanner scanner = new Scanner(System.in); 
-    static private EmployeeServiceImpl employeeservice = new EmployeeServiceImpl();
+    static private EmployeeService employeeservice = new EmployeeServiceImpl();
     static private Logger logger = LoggerFactory.getLogger(EmployeeController.class);
   
-    public static void main(String[] args) {  
+    public static void menu() {  
         String role;
         int inputs = 0;
         
@@ -66,7 +69,12 @@ public class EmployeeController {
                 case 1 :
                      logger.info("Enter the Trainer Id:");
                      int trainerId = scanner.nextInt();
-                     System.out.println("The Trainer Details:" +"\n"+ employeeservice.viewTrainerDetailsById(trainerId));                                          
+                     Trainer trainer = employeeservice.viewTrainerDetailsById(trainerId);
+                     if (trainer != null ) {
+                         System.out.println("The Trainer Details:" +"\n"+ employeeservice.viewTrainerDetailsById(trainerId));     
+                     } else {
+                         logger.info("No trainer available");
+                     }                                      
                      break;
                 case 2 :
                      StringBuilder stringBuild = new StringBuilder();
@@ -185,29 +193,13 @@ public class EmployeeController {
         String contactNumber = getContact();
         long mobileNumber = Long.parseLong(contactNumber);
   
-        logger.info("Enter Your Date Of Birth in yyyy-mm-dd format:");
-        String dateOfBirth = scanner.nextLine();
-        int age = employeeservice.calculateAge(dateOfBirth);
-        logger.info("Trainer's age:"+ employeeservice.calculateAge(dateOfBirth));
+        logger.info("Enter Your Date Of Birth in dd-mm-yyyy format:");
+        String dateOfBirth = getBirthDate();
 
-        boolean isValidateExperience = false; 
-        int experience = 0;
-
-        while(!isValidateExperience) {
-            try {
-                logger.info("Enter the Experience:");
-                experience = scanner.nextInt();
-                age = employeeservice.calculateAge(dateOfBirth);
-                if (EmployeeUtils.isExperienceValidated(age, experience)) {
-                    isValidateExperience = true;
-                    logger.info("Experience is sucessfully added");
-                }
-            } catch (InvalidException e) { 
-                logger.error(e.getMessage());
-            }
-        }
-           
+        logger.info("Enter the Experience:");
+        int experience = scanner.nextInt();
         scanner.nextLine();
+
         logger.info("Enter the Date Of Joining in dd-mm-yyyy format:");
         String dateOfJoining = getDate();
 
@@ -244,10 +236,8 @@ public class EmployeeController {
         String contactNumber = getContact();
         long mobileNumber = Long.parseLong(contactNumber);
   
-        logger.info("Enter Your Date Of Birth in yyyy-mm-dd format:");
-        String dateOfBirth = scanner.nextLine();
-        int age = employeeservice.calculateAge(dateOfBirth);
-        logger.info("Trainer's age:"+ employeeservice.calculateAge(dateOfBirth));
+        logger.info("Enter Your Date Of Birth in dd-mm-yyyy format:");
+        String dateOfBirth = getBirthDate();
            
         logger.info("Enter the pass out year:");
         String passOutYear = scanner.nextLine();
@@ -370,7 +360,7 @@ public class EmployeeController {
          if (!collegeName.isEmpty()) {
              traineeDetails.setCollegeName(collegeName);
          } 
-          return traineeDetails;
+         return traineeDetails;
     }
 
     /**
@@ -491,18 +481,39 @@ public class EmployeeController {
     public static String getDate() { 
         boolean isValidDate = true;
         String date = null;
-
         while(isValidDate) {
             date = scanner.nextLine();
-            boolean isValidFormat = EmployeeUtils.isValidateDate(date); 
+            boolean isValidFormat = EmployeeUtils.isDateValidated(date); 
             if (isValidFormat) {
                 isValidDate = false;
             } else {
                 isValidDate = true;
-                System.out.println("Please enter date of joining in this dd-mm-yyyy format:");
+                System.out.println("Please enter the date of Joining in this dd-mm-yyyy");
             }
         }
         return date;
+    }
+
+    /**
+      * This method is used to validate Birthdate
+      *
+      * @return Birthdate
+      *
+      */ 
+    public static String getBirthDate() { 
+        boolean isValidDate = true;
+        String birthDate = null;
+        while(isValidDate) {
+            birthDate= scanner.nextLine();
+            boolean isValidFormat = EmployeeUtils.isBirthDateValidated(birthDate); 
+            if (isValidFormat) {
+                isValidDate = false;
+            } else {
+                isValidDate = true;
+                System.out.println("please enter birth date in this format: dd-mm-yyyy");
+            }
+        }
+        return birthDate;
     }
 
     /**

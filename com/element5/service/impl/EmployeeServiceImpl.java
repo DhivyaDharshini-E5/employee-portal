@@ -1,4 +1,4 @@
-package com.element5.service;
+package com.element5.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,8 +8,11 @@ import java.time.Period;
 
 import com.element5.model.Trainer;
 import com.element5.model.Trainee;
-import com.element5.dao.TrainerDaoImpl;
-import com.element5.dao.TraineeDaoImpl;
+import com.element5.dao.TrainerDao;
+import com.element5.dao.TraineeDao;
+import com.element5.dao.impl.TrainerDaoImpl;
+import com.element5.dao.impl.TraineeDaoImpl;
+import com.element5.service.EmployeeService;
 
 /**
  * <h3> EmployeeServiceImpl </h3>
@@ -34,8 +37,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private String dateOfJoining;
     private int experience;
     
-    TrainerDaoImpl trainerDao = new TrainerDaoImpl();
-    TraineeDaoImpl traineeDao = new TraineeDaoImpl(); 
+    TrainerDao trainerDao = new TrainerDaoImpl();
+    TraineeDao traineeDao = new TraineeDaoImpl(); 
     
     /**
      * This method is used to add informations about a trainer in trainer list
@@ -48,7 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                            String dateOfBirth, String projectName, String dateOfJoining, int experience) {                           
         Trainer trainer = new Trainer(id, name, mobileNumber, email, designation, dateOfBirth, 
                                        projectName, dateOfJoining, experience);                                     
-        trainerDao.insertIntoTrainerTable(trainer);
+        trainerDao.insertTrainer(trainer);
         
     }
  
@@ -63,24 +66,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                            String dateOfBirth, String taskName, String passOutYear, String collegeName) {                          
         Trainee trainee = new Trainee(id, name, mobileNumber, email, designation, dateOfBirth, 
                                        taskName, passOutYear, collegeName);                                      
-        traineeDao.insertIntoTraineeTable(trainee);
+        traineeDao.insertTrainee(trainee);
         
-    }
-
-    /**
-     * This method is used to calculate the age of a employee
-     *
-     * @param dateofbirth of an employee is passed as a parameter
-     *
-     * @return age
-     *
-     */
-    @Override
-    public int calculateAge(String dateOfBirth) { 
-        LocalDate birthDate = LocalDate.parse(dateOfBirth);
-        LocalDate today = LocalDate.now();
-        age = Period.between(birthDate, today).getYears();
-        return age;
     }
 
     /**
@@ -133,7 +120,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * This method is used to update trainer Details
      *
      */
-    @override
+    @Override
     public String updateTrainerDetailsById(int trainerId, Trainer updatedTrainerDetails) {
         return trainerDao.modifyTrainerDetailsById(trainerId, updatedTrainerDetails);
     }
@@ -160,7 +147,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * This method is used to remove trainee Details
      *
      */ 
-    @override   
+    @Override   
     public String deleteTraineeDetailsById(int traineeId) {
         return traineeDao.removeTraineeDetails(traineeId);
     }
@@ -168,7 +155,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     /**
      * This method is used to update details of trainees assigned to trainer in trainer details
      *
-     */           
+     */ 
+    @Override          
     public String changeTrainerDetailsById(int trainerId, Trainer trainer) {
         return trainerDao.modifyTrainerDetailsById(trainerId, trainer);
     }
@@ -176,7 +164,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     /**
      * This method is used to update details of trainer assigned to trainee in trainee details
      *
-     */           
+     */
+    @Override           
     public String changeTraineeDetailsById(int traineeId, Trainee trainee) {
         return traineeDao.modifyTraineeDetailsById(traineeId, trainee);
     } 

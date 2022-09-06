@@ -46,7 +46,7 @@ public interface EmployeeService {
      * @return age
      *
      */
-    public int calculateAge(String dateOfBirth);
+    //public int calculateAge(String dateOfBirth);
 
      /**
       * This method is used to view trainer details 
